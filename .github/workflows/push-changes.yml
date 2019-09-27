@@ -2,6 +2,8 @@ name: "Commit and push changes to the current repo"
 on: push
 jobs:
   push-change:
+    runs-on: ubuntu-latest
+    steps:
     - name: Check out the repo
       uses: actions/checkout@v1
       
