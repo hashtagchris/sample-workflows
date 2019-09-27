@@ -13,7 +13,7 @@ jobs:
     - name: "Configure git"
       run: |
         # Set up token auth - maybe actions/checkout will do this step some day?
-        git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        git remote set-url origin https://x-access-token:${{github.token}}@github.com/${{github.repository}}.git
 
         # Tell git who we are.
         git config --global user.name "github-actions"
