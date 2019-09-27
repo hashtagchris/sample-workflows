@@ -1,0 +1,34 @@
+name: "Commit and push changes to the current repo"
+on: push
+jobs:
+  push-change:
+    - name: Check out the repo
+      uses: actions/checkout@v1
+      
+    - name: "Work around detached head (https://github.com/actions/checkout/issues/6)"
+      run: git checkout $GITHUB_REF
+      
+    - name: "Configure git"
+      run: |
+        # Set up token auth - maybe actions/checkout will do this step some day?
+        git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+        # Tell git who we are.
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@users.noreply.github.com"
+      
+    - name: "Change one or more files"
+      run: |
+        date >> added_by_push-changes.yml.txt
+        echo "Event: $GITHUB_EVENT_NAME" >> added_by_push-changes.yml.txt
+        echo "Action: `jq '.action' $GITHUB_EVENT_PATH`" >> added_by_push-changes.yml.txt
+        echo "Ref: $GITHUB_REF" >> added_by_push-changes.yml.txt
+        echo "Sha: $GITHUB_SHA" >> added_by_push-changes.yml.txt 
+        echo "Message: `jq '.head_commit.message' $GITHUB_EVENT_PATH`" >> added_by_push-changes.yml.txt
+        echo >> added_by_push-changes.yml.txt
+        
+    - name: "Add, commit and push changes"
+      run: |
+        git add .
+        git commit -m "Various changes"
+        git push
