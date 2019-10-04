@@ -1,0 +1,14 @@
+name: Create Monthly PTO Issue
+on:
+  schedule:
+  - cron: "33 4 4 4,10 *"
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: JasonEtco/create-an-issue@v2.0.0
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/monthly-pto-issue-template.md
