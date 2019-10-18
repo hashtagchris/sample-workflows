@@ -7,13 +7,14 @@ jobs:
     - name: "Check out the repo"
       uses: actions/checkout@v1
       
-    - name: "Work around detached head (https://github.com/actions/checkout/issues/6)"
-      # Use GITHUB_HEAD_REF for pull_request events
-      run: git checkout ${GITHUB_REF#refs/heads/}
+    - name: "Work around detached head issue (https://github.com/actions/checkout/issues/6)"
+      run: |
+        # Use GITHUB_HEAD_REF for pull_request events
+        git checkout ${GITHUB_REF#refs/heads/}
       
     - name: "Configure git"
       run: |
-        # Set up token auth - maybe actions/checkout will do this step some day?
+        # Set up token auth. Maybe actions/checkout will do this step some day?
         git remote set-url origin https://x-access-token:${{github.token}}@github.com/${{github.repository}}.git
 
         # Tell git who we are.
