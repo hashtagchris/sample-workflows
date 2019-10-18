@@ -8,6 +8,7 @@ jobs:
       uses: actions/checkout@v1
       
     - name: "Work around detached head (https://github.com/actions/checkout/issues/6)"
+      # Use GITHUB_HEAD_REF for pull_request events
       run: git checkout ${GITHUB_REF#refs/heads/}
       
     - name: "Configure git"
@@ -21,9 +22,11 @@ jobs:
       
     - name: "Change one or more files"
       run: |
+        # Do your thing here. Generate docs, translate your files to pig latin, etc.
         date >> added_by_push-changes.yml.txt
         echo "Event: $GITHUB_EVENT_NAME" >> added_by_push-changes.yml.txt
-        echo "Action: `jq '.action' $GITHUB_EVENT_PATH`" >> added_by_push-changes.yml.txt
+        # Activity type will be null for push events
+        echo "Activity type: `jq '.action' $GITHUB_EVENT_PATH`" >> added_by_push-changes.yml.txt
         echo "Ref: $GITHUB_REF" >> added_by_push-changes.yml.txt
         echo "Sha: $GITHUB_SHA" >> added_by_push-changes.yml.txt 
         echo "Message: `jq '.head_commit.message' $GITHUB_EVENT_PATH`" >> added_by_push-changes.yml.txt
