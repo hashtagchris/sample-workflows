@@ -1,10 +1,10 @@
 name: "Commit and push changes to the current repo"
 on: push
 jobs:
-  push-change:
+  push-changes:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out the repo
+    - name: "Check out the repo"
       uses: actions/checkout@v1
       
     - name: "Work around detached head (https://github.com/actions/checkout/issues/6)"
