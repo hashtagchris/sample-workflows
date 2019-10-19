@@ -1,20 +1,16 @@
-# TODO: Test fork PR
 name: "Replace tabs"
 on: push
 jobs:
-  push-changes:
+  job:
     runs-on: ubuntu-latest
     steps:
     - name: "Check out the repo"
       uses: actions/checkout@v1
 
-    - run: echo $GITHUB_REF
-    - run: echo $GITHUB_HEAD_REF
-    - run: echo $GITHUB_BASE_REF
-    - run: cat $GITHUB_EVENT_PATH
-
     - name: "Work around detached head (https://github.com/actions/checkout/issues/6)"
-      run: git checkout ${GITHUB_REF#refs/heads/}
+      run: |
+        # You can use GITHUB_HEAD_REF for `on: pull_request`. Doesn't work for forked PRs though.
+        git checkout ${GITHUB_REF#refs/heads/}
       
     - name: "Configure git"
       run: |
@@ -28,11 +24,13 @@ jobs:
     - name: "Replace tabs in text files with spaces"
       run: |
         # Make whatever changes you'd like here. Remove trailing whitespace, add copyright notices, generate docs, etc...
+        # `git grep` is used here to find non-binary files.
         git grep --name-only -e . | xargs perl -pi -e 's/\t/  /g'
 
     - name: "Any changes made?"
       id: dirty-check
       run: |
+        # Set `git-status` so we can skip the step below if the workspace is clean.
         git status
         echo ::set-output name=git-status::`git status --porcelain`
         
