@@ -1,0 +1,44 @@
+# TODO: Test fork PR
+name: "Replace tabs"
+on: pull_request
+jobs:
+  push-changes:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Check out the repo"
+      uses: actions/checkout@v1
+
+    - run: echo $GITHUB_REF
+    - run: echo $GITHUB_HEAD_REF
+    - run: echo $GITHUB_BASE_REF
+    - run: cat $GITHUB_EVENT_PATH
+
+    - name: "Work around detached head (https://github.com/actions/checkout/issues/6)"
+      run: git checkout ${GITHUB_HEAD_REF#refs/heads/}
+      
+    - name: "Configure git"
+      run: |
+        # Set up token auth - maybe actions/checkout will do this step some day?
+        git remote set-url origin https://x-access-token:${{github.token}}@github.com/${{github.repository}}.git
+
+        # Tell git who we are.
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@users.noreply.github.com"
+      
+    - name: "Replace tabs in text files with spaces"
+      run: |
+        # Make whatever changes you'd like here. Remove trailing whitespace, add copyright notices, generate docs, etc...
+        git grep --name-only -e . | xargs perl -pi -e 's/\t/  /g'
+
+    - name: "Any changes made?"
+      id: dirty-check
+      run: |
+        git status
+        echo ::set-output name=git-status::`git status --porcelain`
+        
+    - name: "Add, commit and push changes"
+      if: steps.dirty-check.outputs.git-status != ''
+      run: |
+        git add .
+        git commit -m "Richard was wrong. #TeamWinnie"
+        git push
