@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: "Check out the repo"
+      # Note: You need `@v1.1.0`. `@v1` won't work.
+      # TODO: Replace this with `@v2` when it is released to get non-breaking improvements.
       uses: actions/checkout@v1.1.0
       
     - name: "Configure git"
