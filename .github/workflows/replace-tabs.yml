@@ -9,6 +9,11 @@ jobs:
       # TODO: Replace this with `@v2` when it is released to get non-breaking improvements.
       uses: actions/checkout@v1.1.0
       
+    - name: "Work around detached head (https://github.com/actions/checkout/issues/6)"
+      run: |
+        # You can use GITHUB_HEAD_REF for `on: pull_request`. Doesn't work for forked PRs though.
+        git checkout ${GITHUB_REF#refs/heads/}
+              
     - name: "Configure git"
       run: |
         # Tell git who we are.
