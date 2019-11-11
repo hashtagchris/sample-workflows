@@ -2,5 +2,5 @@
 Sample workflows for GitHub Actions
 
 Testing
-	tab
-		replacement
+  tab
+    replacement
