@@ -5,18 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: "Check out the repo"
-      uses: actions/checkout@v1
-
-    - name: "Work around detached head (https://github.com/actions/checkout/issues/6)"
-      run: |
-        # You can use GITHUB_HEAD_REF for `on: pull_request`. Doesn't work for forked PRs though.
-        git checkout ${GITHUB_REF#refs/heads/}
+      uses: actions/checkout@v1.1
       
     - name: "Configure git"
       run: |
-        # Set up token auth - maybe actions/checkout will do this step some day?
-        git remote set-url origin https://x-access-token:${{github.token}}@github.com/${{github.repository}}.git
-
         # Tell git who we are.
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@users.noreply.github.com"
