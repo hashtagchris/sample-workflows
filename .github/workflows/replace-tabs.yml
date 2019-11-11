@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: "Check out the repo"
-      # Note: You need `@v1.1.0`. `@v1` won't work.
+      # Note: You need to target `@v1.1.0`. If you target `@v1` you'll need to add a step to run `git remote set-url origin https://x-access-token:${{github.token}}@github.com/${{github.repository}}.git`
       # TODO: Replace this with `@v2` when it is released to get non-breaking improvements.
       uses: actions/checkout@v1.1.0
       
