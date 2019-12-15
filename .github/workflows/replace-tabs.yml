@@ -6,12 +6,6 @@ jobs:
     steps:
     - name: "Check out the repo"
       uses: actions/checkout@v2
-                    
-    - name: "Configure git"
-      run: |
-        # Tell git who we are.
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@users.noreply.github.com"
       
     - name: "Replace tabs in text files with spaces"
       run: |
