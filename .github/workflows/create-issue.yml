@@ -1,4 +1,4 @@
-name: create issue
+name: create issue using github-script
 on:
   workflow_dispatch:
 
