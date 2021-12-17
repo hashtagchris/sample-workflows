@@ -1,0 +1,17 @@
+name: skip typing sudo
+on:
+  workflow_dispatch:
+
+# Defaults saves you from typing sudo over and over
+# https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#defaultsrun
+defaults:
+  run:
+    shell: sudo -E bash {0}
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - runs: |
+          whoami | tee /i-am-root
+          ls -la /i-am-root
