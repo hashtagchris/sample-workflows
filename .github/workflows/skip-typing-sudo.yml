@@ -15,3 +15,8 @@ jobs:
       - run: |
           whoami | tee /i-am-root
           ls -la /i-am-root
+          
+      - run: |
+          echo $HOME
+          ls -la ~/
+          ls -la /root
