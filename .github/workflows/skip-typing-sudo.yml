@@ -6,7 +6,7 @@ on:
 # https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#defaultsrun
 defaults:
   run:
-    shell: HOME=/root sudo -E bash {0}
+    shell: sudo -E -H bash {0}
 
 jobs:
   linux:
@@ -20,7 +20,3 @@ jobs:
           echo $HOME
           ls -la ~/
           ls -la /root
-
-      - run: |
-          echo $HOME
-        shell: sudo bash {0}
