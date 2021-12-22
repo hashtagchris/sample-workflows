@@ -23,6 +23,8 @@ jobs:
 
       - run: |
           echo $HOME
+          sudo echo $HOME
+          sudo -E echo $HOME
           ls -la ~/
           ls -la /root
         shell: bash
