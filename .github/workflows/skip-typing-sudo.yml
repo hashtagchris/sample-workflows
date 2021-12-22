@@ -23,7 +23,4 @@ jobs:
 
       - run: |
           echo $HOME
-          sudo 'echo $HOME'
-          sudo -E 'echo $HOME'
-          ls -la ~/
-        shell: bash
+        shell: sudo bash {0}
