@@ -20,3 +20,9 @@ jobs:
           echo $HOME
           ls -la ~/
           ls -la /root
+
+      - run: |
+          echo $HOME
+          ls -la ~/
+          ls -la /root
+        shell: bash
