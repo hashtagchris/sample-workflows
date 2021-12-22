@@ -9,7 +9,7 @@ defaults:
     shell: sudo -E bash {0}
 
 jobs:
-  create-issue:
+  linux:
     runs-on: ubuntu-latest
     steps:
       - run: |
