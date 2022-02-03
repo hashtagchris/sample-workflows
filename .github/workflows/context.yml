@@ -1,0 +1,11 @@
+name: Dump event payload and contexts
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - run: cat $GITHUB_EVENT_PATH
+    
+    - uses: crazy-max/ghaction-dump-context@v1
