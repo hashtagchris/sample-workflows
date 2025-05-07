@@ -1,0 +1,40 @@
+name: quickly iterate on a default branch workflow
+on:
+  # The primary trigger
+  issues:
+    types: [labeled, unlabeled]
+  # For quickly iterating on the script below
+  pull_request:
+  workflow_dispatch:
+
+# Fallback arguments when you're not processing a real webhook
+env:
+  ISSUE_NUMBER_FOR_TESTING: 1
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+
+    steps:
+      # Optional debugging
+      - name: Inspect the webhook payload
+        if: ${{ github.event_name == 'issues' }}
+        run: cat $GITHUB_EVENT_PATH
+
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const resp = await github.rest.issues.get({
+              issue_number: process.env.ISSUE_NUMBER,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+            console.log(`Issue title: ${resp.data.title}`)
+
+        # coalesce script arguments
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number || env.ISSUE_NUMBER_FOR_TESTING }}
